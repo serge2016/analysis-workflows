@@ -35,9 +35,6 @@ inputs:
         type: ../types/labelled_file.yml#labelled_file[]
     summary_intervals:
         type: ../types/labelled_file.yml#labelled_file[]
-    omni_vcf:
-        type: File
-        secondaryFiles: [.tbi]
     picard_metric_accumulation_level:
         type: string
     qc_minimum_mapping_quality:
@@ -48,12 +45,6 @@ inputs:
         default: 0
     interval_list:
         type: File
-    cosmic_vcf:
-        type: File?
-        secondaryFiles: [.tbi]
-    panel_of_normals_vcf:
-        type: File?
-        secondaryFiles: [.tbi]
     strelka_cpu_reserved:
         type: int?
         default: 8
@@ -105,21 +96,13 @@ inputs:
         default: [GT,AD]
     vep_to_table_fields:
         type: string[]
-        default: [HGVSc,HGVSp]
+        default: ['Consequence','SYMBOL','Feature']
     custom_gnomad_vcf:
         type: File?
         secondaryFiles: [.tbi]
     custom_clinvar_vcf:
         type: File?
         secondaryFiles: [.tbi]
-    manta_call_regions:
-        type: File?
-        secondaryFiles: [.tbi]
-    manta_non_wgs:
-        type: boolean?
-        default: true
-    manta_output_contigs:
-        type: boolean?
 outputs:
     tumor_cram:
         type: File
@@ -154,12 +137,15 @@ outputs:
     tumor_flagstats:
         type: File
         outputSource: tumor_alignment_and_qc/flagstats
+<<<<<<< HEAD
 #    tumor_verify_bam_id_metrics:
 #        type: File
 #        outputSource: tumor_alignment_and_qc/verify_bam_id_metrics
 #    tumor_verify_bam_id_depth:
 #        type: File
 #        outputSource: tumor_alignment_and_qc/verify_bam_id_depth
+=======
+>>>>>>> c0755ecb1d1e7d8cbc6ad24450b24dfc81a1a054
     normal_cram:
         type: File
         outputSource: normal_index_cram/indexed_cram
@@ -193,12 +179,15 @@ outputs:
     normal_flagstats:
         type: File
         outputSource: normal_alignment_and_qc/flagstats
+<<<<<<< HEAD
     #normal_verify_bam_id_metrics:
     #    type: File
     #    outputSource: normal_alignment_and_qc/verify_bam_id_metrics
     #normal_verify_bam_id_depth:
     #    type: File
     #    outputSource: normal_alignment_and_qc/verify_bam_id_depth
+=======
+>>>>>>> c0755ecb1d1e7d8cbc6ad24450b24dfc81a1a054
     mutect_unfiltered_vcf:
         type: File
         outputSource: detect_variants/mutect_unfiltered_vcf
@@ -257,6 +246,7 @@ outputs:
     normal_indel_bam_readcount_tsv:
         type: File
         outputSource: detect_variants/normal_indel_bam_readcount_tsv
+<<<<<<< HEAD
     intervals_antitarget:
         type: File?
         outputSource: cnvkit/intervals_antitarget
@@ -310,6 +300,8 @@ outputs:
         type: File?
         outputSource: manta/tumor_only_variants
         secondaryFiles: [.tbi]
+=======
+>>>>>>> c0755ecb1d1e7d8cbc6ad24450b24dfc81a1a054
 steps:
     tumor_alignment_and_qc:
         run: exome_alignment_mouse.cwl
@@ -323,8 +315,8 @@ steps:
             per_target_intervals: per_target_intervals
             summary_intervals: summary_intervals
             picard_metric_accumulation_level: picard_metric_accumulation_level   
-            minimum_mapping_quality: qc_minimum_mapping_quality
-            minimum_base_quality: qc_minimum_base_quality
+            qc_minimum_mapping_quality: qc_minimum_mapping_quality
+            qc_minimum_base_quality: qc_minimum_base_quality
             final_name:
                 source: tumor_name
                 valueFrom: "$(self).bam"
@@ -342,8 +334,8 @@ steps:
             per_target_intervals: per_target_intervals
             summary_intervals: summary_intervals
             picard_metric_accumulation_level: picard_metric_accumulation_level   
-            minimum_mapping_quality: qc_minimum_mapping_quality
-            minimum_base_quality: qc_minimum_base_quality
+            qc_minimum_mapping_quality: qc_minimum_mapping_quality
+            qc_minimum_base_quality: qc_minimum_base_quality
             final_name:
                 source: normal_name
                 valueFrom: "$(self).bam"
@@ -356,9 +348,12 @@ steps:
             tumor_bam: tumor_alignment_and_qc/bam
             normal_bam: normal_alignment_and_qc/bam
             interval_list: interval_list
+<<<<<<< HEAD
 #            dbsnp_vcf: dbsnp_vcf
             cosmic_vcf: cosmic_vcf
             panel_of_normals_vcf: panel_of_normals_vcf
+=======
+>>>>>>> c0755ecb1d1e7d8cbc6ad24450b24dfc81a1a054
             strelka_exome_mode:
                 default: true
             strelka_cpu_reserved: strelka_cpu_reserved
@@ -380,10 +375,9 @@ steps:
             variants_to_table_fields: variants_to_table_fields
             variants_to_table_genotype_fields: variants_to_table_genotype_fields
             vep_to_table_fields: vep_to_table_fields
-            custom_gnomad_vcf: custom_gnomad_vcf
-            custom_clinvar_vcf: custom_clinvar_vcf
         out:
             [mutect_unfiltered_vcf, mutect_filtered_vcf, strelka_unfiltered_vcf, strelka_filtered_vcf, varscan_unfiltered_vcf, varscan_filtered_vcf, pindel_unfiltered_vcf, pindel_filtered_vcf, final_vcf, final_filtered_vcf, final_tsv, vep_summary, tumor_snv_bam_readcount_tsv, tumor_indel_bam_readcount_tsv, normal_snv_bam_readcount_tsv, normal_indel_bam_readcount_tsv]
+<<<<<<< HEAD
 #    cnvkit:
 #        run: ../tools/cnvkit_batch.cwl
 #        in: 
@@ -404,6 +398,8 @@ steps:
 #            output_contigs: manta_output_contigs
 #        out:
 #            [diploid_variants, somatic_variants, all_candidates, small_candidates, tumor_only_variants]
+=======
+>>>>>>> c0755ecb1d1e7d8cbc6ad24450b24dfc81a1a054
     tumor_bam_to_cram:
         run: ../tools/bam_to_cram.cwl
         in:
