@@ -50,7 +50,7 @@ outputs:
 steps:
     cnvkit_main:
         run: ../tools/cnvkit_batch.cwl
-        in: 
+        in:
             tumor_bam: tumor_bam
             method: method
             diagram: diagram
@@ -59,25 +59,25 @@ steps:
             male_reference: male_reference
             reference_cnn: reference_cnn
         out:
-            [cn_diagram, cn_scatter_plot, tumor_antitarget_coverage, tumor_target_coverage, tumor_bin_level_ratios, tumor_segmented_ratios]            
-            
+            [cn_diagram, cn_scatter_plot, tumor_antitarget_coverage, tumor_target_coverage, tumor_bin_level_ratios, tumor_segmented_ratios]
+
     cns_to_vcf:
         run: ../tools/cnvkit_vcf_export.cwl
         in:
             cns_file: cnvkit_main/tumor_segmented_ratios
             male_reference: male_reference
             cnr_file: cnvkit_main/tumor_bin_level_ratios
-            output_name: 
+            output_name:
                 source: cnvkit_vcf_name
                 valueFrom: |
-                    ${  
+                    ${
                         if(inputs.output_name) {
                             return inputs.output_name;
-                        }   
+                        }
                         else {
                             return inputs.tumor_bam.nameroot + ".cnvkit.vcf"
-                        }   
+                        }
                     }
-            tumor_bam: tumor_bam
+            # tumor_bam: tumor_bam # Looks like leftover or bug
         out:
             [cnvkit_vcf]
